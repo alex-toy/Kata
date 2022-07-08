@@ -2,11 +2,23 @@
 {
     public class RomanNumberGenerator
     {
+        private static Dictionary<int, string> _thresholdRomanSymbols = new Dictionary<int, string>
+        {
+            [50] = "L",
+            [40] = "XL",
+            [10] = "X",
+            [9] = "IX",
+            [5] = "V",
+            [4] = "IV",
+        };
+
         public static string ToRoman(int arabNumber)
         {
-            if (arabNumber <= 3) return new string('I', arabNumber);
-            if (arabNumber == 4) return "IV";
-            return "V" + ToRoman(arabNumber-5);
+            (int threshold, string romanSymbol) = _thresholdRomanSymbols.FirstOrDefault(a => arabNumber >= a.Key);
+
+            if (romanSymbol != null) return romanSymbol + ToRoman(arabNumber - threshold);
+
+            return new string('I', arabNumber);
         }
     }
 }
